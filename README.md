@@ -1,7 +1,5 @@
 # Covid-Data-Exploration
 
----
-
 ## About dataset
 
 The data consists of daily records per location with variables related to number of confirmed cases, deaths, hospitalizations, testing, vaccinations and a other variables of potential interest.
