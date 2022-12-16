@@ -6,7 +6,7 @@ The data consists of daily records per location with variables related to number
 
 Source: https://ourworldindata.org/covid-deaths
 
-For more information about the metrics and data: covid-19-data/public/data at master · owid/covid-19-data · GitHub 
+For more information about the metrics and data: https://github.com/owid/covid-19-data/tree/master/public/data
 
 
 For the purpose of practing writing more complex SQL queries and creating relational databases I have separated the source's dataset into 3 separate files:
