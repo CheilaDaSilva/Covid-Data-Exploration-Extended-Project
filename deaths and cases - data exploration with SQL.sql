@@ -1,3 +1,8 @@
+/* connect to database */
+
+USE ProjectWork
+
+
 /* 
 EXPLORING COVID DEATHS AND CASES 
 */
@@ -7,12 +12,12 @@ EXPLORING COVID DEATHS AND CASES
 CREATE VIEW DeathsAndCasesByCountry
 AS
 SELECT iso_code, continent, location, date, total_deaths, total_cases, new_deaths, new_cases 
-FROM ProjectWork..CovidDeathsAndCases
+FROM CovidDeathsAndCases
 WHERE continent IS NOT NULL
 
 
 /* Total Cases vs Total Deaths by country over time */
-SELECT location, date, total_cases, total_deaths 
+SELECT location, date, total_cases, total_deaths
 FROM DeathsAndCasesByCountry
 
 
@@ -28,7 +33,7 @@ ORDER BY 1,2
 /* Percentage of Population Infected by Covid in the United Kingdom over time */
 SELECT dea.location, dea.date, dea.total_cases, loc.population, (dea.total_cases/loc.population)*100 as PercentPopulationInfected
 FROM DeathsAndCasesByCountry dea
-JOIN ProjectWork..LocationMetrics loc 
+JOIN LocationMetrics loc 
 	ON dea.location = loc.location
 WHERE dea.location = 'United Kingdom'
 ORDER BY date
@@ -37,7 +42,7 @@ ORDER BY date
 /* countries with the highest infection rates based on population size*/
 SELECT dea.location, loc.population, MAX(dea.total_cases) AS HighestInfectionCount, (MAX(dea.total_cases)/loc.population)*100 as PercentPopulationInfected
 FROM DeathsAndCasesByCountry dea
-JOIN ProjectWork..LocationMetrics loc 
+JOIN LocationMetrics loc 
 	ON dea.location = loc.location
 GROUP BY dea.location, loc.population
 ORDER BY PercentPopulationInfected desc
@@ -53,7 +58,7 @@ ORDER BY TotalDeathCount desc
 /* countries with the highest death count based on population size */
 SELECT dea.location, MAX(total_deaths) AS TotalDeathCount, (MAX(dea.total_deaths)/loc.population)*100 as PercentPopulationDeceased
 FROM DeathsAndCasesByCountry dea
-JOIN ProjectWork..LocationMetrics loc 
+JOIN LocationMetrics loc 
 	ON dea.location = loc.location
 GROUP BY dea.location, loc.population
 ORDER BY PercentPopulationDeceased desc
@@ -61,7 +66,7 @@ ORDER BY PercentPopulationDeceased desc
 
 /* Countries that applied the highest of stringency indexes */
 SELECT TOP(15) location, max(stringency_index) as highest_string_index
-FROM ProjectWork..CovidDeathsAndCases
+FROM CovidDeathsAndCases
 WHERE continent IS NOT NULL
 GROUP BY location
 ORDER BY highest_string_index DESC
@@ -81,3 +86,15 @@ JOIN LocationMetrics ON CovidDeathsAndCases.iso_code = LocationMetrics.iso_code
 
 -- DROP VIEW DeathsAndCasesByCountry
 
+/*
+---
+
+SELECT location, date, new_deaths, total_deaths, sum(new_deaths) over (partition by location order by location, date) as cummulative_deaths
+FROM DeathsAndCasesByCountry
+WHERE location = 'Malaysia'
+ORDER BY location, date
+
+-- seems like there are some discrepancies between new_deaths values and the cummulative total_deaths
+-- will rewrite the code to take this into account 
+
+*/
