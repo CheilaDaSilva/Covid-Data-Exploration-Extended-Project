@@ -1,10 +1,10 @@
-# Project: Covid Data Exploration 💻
+# 💻 Project: Covid Data Exploration
 
 ![Project Banner](https://user-images.githubusercontent.com/88495091/209154393-d7d258f1-370e-4024-accc-6f17b58437ce.png)
 
 ## About datasets
 
-The data consists of daily records per location with variables related to number of confirmed cases, deaths, hospitalizations, testing, vaccinations and a other variables of potential interest.
+The data consists of daily records per location with variables related to number of confirmed cases, deaths, hospitalizations, testing, vaccinations and other variables of potential interest.
 
 Source: https://ourworldindata.org/covid-deaths
 
